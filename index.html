@@ -62,8 +62,12 @@
   <body>
     <div id="startOverlay">CLICK ANYWHERE</div>
 
+    <video playsinline autoplay muted loop id="video-background">
+      <source src="assets/sfondo1.mp4" type="video/mp4">
+      Il tuo browser non supporta il tag video.
+    </video>
     <div class="main-content">
-      <div class="gradient-bg"></div>
+      
 
       <img
         class="profile-pic"
@@ -82,10 +86,10 @@
         rel="noopener noreferrer"
         aria-label="Discord"
       >
-        <img src="discord.png" alt="Discord" />Discord</a
+        <img src="assets/discord.png" alt="Discord" />Discord</a
       >
       <a href="https://www.tiktok.com/@bellum98_" class="btn-neon icon-only">
-        <img src="tiktok.png" alt="TikTok" />TikTok
+        <img src="assets/tiktok.png" alt="TikTok" />TikTok
       </a>
       <a
         href="https://open.spotify.com/playlist/0Jy5hfdymaALQHuMdJyE9E?si=e077fd4665cc49da"
@@ -94,7 +98,7 @@
         rel="noopener noreferrer"
         aria-label="Discord"
       >
-        <img src="spoty.png" alt="Discord" />Spotify</a
+        <img src="assets/spoty.png" alt="Discord" />Spotify</a
       >
       <a
         href="https://next.nexusmods.com/profile/Bellum98b"
@@ -103,9 +107,9 @@
         rel="noopener noreferrer"
         aria-label="Discord"
       >
-        <img src="nexus.png" alt="Discord" /> Nexus Mod</a
+        <img src="assets/nexus.png" alt="Discord" /> Nexus Mod</a
       >
-      <audio id="myaudio" src="NO BATIDÃO (SLOWED).mp3" loop></audio>
+      <audio id="myaudio" src="assets/NO BATIDÃO (SLOWED).mp3" loop></audio>
 
       <div id="audioError" role="alert"></div>
 
@@ -140,7 +144,7 @@
               }
 
               audio.muted = false;
-              audio.volume = 0.8;
+              audio.volume = 0.5;
 
               const startAt = 0.17; // secondi
               try {
@@ -160,8 +164,8 @@
                   if (!isNaN(audio.duration) && audio.duration > startAt) {
                     try {
                       audio.currentTime = startAt;
-                    } catch (e) {
-                      console.warn("Impossibile seekare audio:", e);
+                    } catch (seekErr) {
+                      console.warn("Impossibile seekare audio:", seekErr);
                     }
                   }
                 }
@@ -200,43 +204,46 @@
         const leftArrow = document.querySelector(".left-arrow");
         const rightArrow = document.querySelector(".right-arrow");
 
-        leftArrow.addEventListener("click", () => {
-          videoScroller.scrollBy({
-            left: -videoScroller.clientWidth / 2, // Scorri metà larghezza del contenitore
-            behavior: "smooth",
+        if (videoScroller) { // Aggiunto controllo per evitare errori se non presente
+          leftArrow.addEventListener("click", () => {
+            videoScroller.scrollBy({
+              left: -videoScroller.clientWidth / 2, // Scorri metà larghezza del contenitore
+              behavior: "smooth",
+            });
           });
-        });
 
-        rightArrow.addEventListener("click", () => {
-          videoScroller.scrollBy({
-            left: videoScroller.clientWidth / 2, // Scorri metà larghezza del contenitore
-            behavior: "smooth",
+          rightArrow.addEventListener("click", () => {
+            videoScroller.scrollBy({
+              left: videoScroller.clientWidth / 2, // Scorri metà larghezza del contenitore
+              behavior: "smooth",
+            });
           });
-        });
 
-        // Opzionale: Nascondere/mostrare le frecce se non c'è più contenuto da scorrere
-        function checkScrollArrows() {
-          if (videoScroller.scrollWidth <= videoScroller.clientWidth) {
-            leftArrow.style.display = "none";
-            rightArrow.style.display = "none";
-          } else {
-            leftArrow.style.display =
-              videoScroller.scrollLeft === 0 ? "none" : "flex";
-            rightArrow.style.display =
-              videoScroller.scrollLeft + videoScroller.clientWidth >=
-              videoScroller.scrollWidth - 5
-                ? "none"
-                : "flex";
+          // Opzionale: Nascondere/mostrare le frecce se non c'è più contenuto da scorrere
+          function checkScrollArrows() {
+            if (videoScroller.scrollWidth <= videoScroller.clientWidth) {
+              leftArrow.style.display = "none";
+              rightArrow.style.display = "none";
+            } else {
+              leftArrow.style.display =
+                videoScroller.scrollLeft === 0 ? "none" : "flex";
+              rightArrow.style.display =
+                videoScroller.scrollLeft + videoScroller.clientWidth >=
+                videoScroller.scrollWidth - 5
+                  ? "none"
+                  : "flex";
+            }
           }
-        }
 
-        videoScroller.addEventListener("scroll", checkScrollArrows);
-        window.addEventListener("resize", checkScrollArrows);
-        // Esegui al caricamento
-        checkScrollArrows();
+          videoScroller.addEventListener("scroll", checkScrollArrows);
+          window.addEventListener("resize", checkScrollArrows);
+          // Esegui al caricamento
+          checkScrollArrows();
+        }
       </script>
     </div>
   </body>
 </html>
+
 
 
