@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bellum.exe</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @keyframes grad {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      /* Messaggio di errore audio */
+      #audioError {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        display: none;
+        z-index: 10000;
+      }
+      /* Immagine laterale (nascosta fino al click) */
+      .left-art {
+        position: absolute;
+        left: 30px;
+        top: 10px;
+        width: 520px;
+        max-width: 28vw;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 0 18px rgba(155, 0, 255, 0.5);
+        display: none;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: opacity 400ms ease, transform 400ms ease;
+        z-index: 50;
+      }
+      .left-art.show {
+        display: block;
+        opacity: 1;
+        transform: translateX(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="startOverlay">CLICK ANYWHERE</div>
+
+    <div class="main-content">
+      <div class="gradient-bg"></div>
+
+      <img
+        class="profile-pic"
+        src="https://cdn.discordapp.com/avatars/475541375463456769/277eba8c22db81fc3eea6cf1a12496c3.webp?size=1024"
+        alt="Bellum.exe"
+      />
+
+      <h1>Bellum.exe</h1>
+
+      <p>Bio Creator • Fivem Player • Mod Author</p>
+
+      <a
+        href="https://discord.com/users/475541375463456769"
+        class="btn-neon icon-only"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Discord"
+      >
+        <img src="assets/discord.png" alt="Discord" />Discord</a
+      >
+      <a href="https://www.tiktok.com/@bellum98_" class="btn-neon icon-only">
+        <img src="assets/tiktok.png" alt="TikTok" />TikTok
+      </a>
+      <a
+        href="https://open.spotify.com/playlist/0Jy5hfdymaALQHuMdJyE9E?si=e077fd4665cc49da"
+        class="btn-neon icon-only"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Discord"
+      >
+        <img src="assets/spoty.png" alt="Discord" />Spotify</a
+      >
+      <a
+        href="https://next.nexusmods.com/profile/Bellum98b"
+        class="btn-neon icon-only"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Discord"
+      >
+        <img src="assets/nexus.png" alt="Discord" /> Nexus Mod</a
+      >
+      <audio id="myaudio" src="assets/NO BATIDÃO (SLOWED).mp3" loop></audio>
+
+      <div id="audioError" role="alert"></div>
+
+      <script>
+        document.getElementById("startOverlay").addEventListener(
+          "click",
+          async function () {
+            const overlay = this;
+            const audio = document.getElementById("myaudio");
+            const errDiv = document.getElementById("audioError");
+
+            // Fade out overlay
+            overlay.style.opacity = "0";
+            overlay.style.transition = "opacity 0.6s ease";
+
+            // Try to verify the audio file is reachable, then play
+            try {
+              const src = audio.getAttribute("src");
+              if (!src) throw new Error("Nessun file audio specificato.");
+
+              let ok = false;
+              try {
+                ok = true;
+              } catch (e) {
+                ok = false;
+              }
+
+              if (!ok && src.startsWith("http")) {
+                throw new Error(
+                  "File audio non trovato o errore di rete: " + src
+                );
+              }
+
+              audio.muted = false;
+              audio.volume = 0.8;
+
+              const startAt = 0.17; // secondi
+              try {
+                if (audio.readyState >= 1) {
+                  if (!isNaN(audio.duration) && audio.duration > startAt)
+                    audio.currentTime = startAt;
+                } else {
+                  await new Promise((resolve) => {
+                    audio.addEventListener("loadedmetadata", resolve, {
+                      once: true,
+                    });
+                    audio.addEventListener("canplay", resolve, {
+                      once: true,
+                    });
+                    setTimeout(resolve, 1500);
+                  });
+                  if (!isNaN(audio.duration) && audio.duration > startAt) {
+                    try {
+                      audio.currentTime = startAt;
+                    } catch (e) {
+                      console.warn("Impossibile seekare audio:", e);
+                    }
+                  }
+                }
+              } catch (seekErr) {
+                console.warn(
+                  "Errore nel settare il punto di partenza audio:",
+                  seekErr
+                );
+              }
+
+              const playPromise = audio.play();
+              if (playPromise !== undefined) {
+                await playPromise;
+              }
+            } catch (err) {
+              console.error("Impossibile avviare l'audio:", err);
+              errDiv.textContent =
+                "Impossibile avviare l'audio. Metti 'NO BATIDÃO (SLOWED).mp3' nella stessa cartella 'assets' o aggiorna il percorso nel tag <audio>.";
+              errDiv.style.display = "block";
+              setTimeout(() => {
+                errDiv.style.display = "none";
+              }, 8000);
+            }
+
+            setTimeout(() => {
+              overlay.remove();
+              const side = document.getElementById("sideArt");
+              if (side) side.classList.add("show");
+            }, 600);
+          },
+          { once: true }
+        );
+
+        // --- JavaScript per le frecce di scorrimento video ---
+        const videoScroller = document.getElementById("videoScroller");
+        const leftArrow = document.querySelector(".left-arrow");
+        const rightArrow = document.querySelector(".right-arrow");
+
+        leftArrow.addEventListener("click", () => {
+          videoScroller.scrollBy({
+            left: -videoScroller.clientWidth / 2, // Scorri metà larghezza del contenitore
+            behavior: "smooth",
+          });
+        });
+
+        rightArrow.addEventListener("click", () => {
+          videoScroller.scrollBy({
+            left: videoScroller.clientWidth / 2, // Scorri metà larghezza del contenitore
+            behavior: "smooth",
+          });
+        });
+
+        // Opzionale: Nascondere/mostrare le frecce se non c'è più contenuto da scorrere
+        function checkScrollArrows() {
+          if (videoScroller.scrollWidth <= videoScroller.clientWidth) {
+            leftArrow.style.display = "none";
+            rightArrow.style.display = "none";
+          } else {
+            leftArrow.style.display =
+              videoScroller.scrollLeft === 0 ? "none" : "flex";
+            rightArrow.style.display =
+              videoScroller.scrollLeft + videoScroller.clientWidth >=
+              videoScroller.scrollWidth - 5
+                ? "none"
+                : "flex";
+          }
+        }
+
+        videoScroller.addEventListener("scroll", checkScrollArrows);
+        window.addEventListener("resize", checkScrollArrows);
+        // Esegui al caricamento
+        checkScrollArrows();
+      </script>
+    </div>
+  </body>
+</html>

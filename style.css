@@ -1,0 +1,335 @@
+/* Overlay */
+#startOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow: 0 0 10px #9b00ff, 0 0 25px #9b00ff;
+  cursor: pointer;
+}
+
+/* Contenuto principale */
+.main-content {
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  padding-top: 80px;
+  color: #fff;
+  position: relative;
+  padding-bottom: 50px;
+}
+.main-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 125%;
+  height: 200%;
+  aspect-ratio: 1/1;
+  background: url("assets/side-art.png") no-repeat left center;
+  background-size: contain;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 4px #9b00ff) drop-shadow(0 0 10px #9b00ff)
+    drop_shadow(0 0 16px #9b00ff);
+}
+
+/* Gradient background */
+.gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, #000, #150015, #3a0063, #000);
+  background-size: 300% 300%;
+  animation: grad 12s ease infinite;
+  z-index: -1;
+}
+
+/* Profilo */
+.profile-pic {
+  width: 180px;
+  height: 180px;
+  border-radius: 30%;
+  opacity: 0.9;
+  box-shadow: 0 0 22px #9b00ff, 0 0 25px #9b00ff;
+  border: 2.5px solid #fff;
+  margin-top: 20px;
+}
+
+/* Nome */
+h1 {
+  margin-top: 20px;
+  font-size: 32px;
+  opacity: 0.95;
+  text-shadow: 0 0 10px #9b00ff, 0 0 25px #9b00ff;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+/* Descrizione */
+p {
+  font-size: 15px;
+  opacity: 0.9;
+  margin-top: -8px;
+}
+
+/* Pulsanti neon */
+.btn-neon {
+  --pad-y: 0.5%;
+  --pad-x: 3.5%;
+  --radius: 12px;
+
+  display: inline-block;
+  margin: 18px;
+  padding: var(--pad-y) var(--pad-x);
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 10px #ffffff, 0 0 20px #9b00ff;
+  box-shadow: 0 0 8px rgba(155, 0, 255, 0.9), 0 0 20px rgba(155, 0, 255, 0.25);
+  position: relative;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-neon img {
+  vertical-align: middle;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  margin-right: 0px;
+}
+
+.btn-neon::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: -8px;
+  bottom: -8px;
+  border-radius: calc(var(--radius) + 8px);
+  z-index: -1;
+  filter: blur(10px);
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, 0.85),
+    rgba(155, 0, 255, 0.25) 40%,
+    rgba(155, 0, 255, 0.05) 70%
+  );
+  opacity: 0.6;
+  transition: opacity 150ms ease, transform 200ms ease;
+}
+
+.btn-neon::after {
+  content: "";
+  position: absolute;
+  left: -18px;
+  right: -18px;
+  top: -18px;
+  bottom: -18px;
+  border-radius: calc(var(--radius) + 18px);
+  z-index: -2;
+  filter: blur(22px);
+  background: radial-gradient(circle, rgba(155, 0, 255, 0.12), transparent 40%);
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.btn-neon:hover,
+.btn-neon:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 48px rgba(155, 0, 255, 0.5);
+  outline: none;
+}
+
+.btn-neon:hover::before,
+.btn-neon:focus::before {
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+.btn-neon:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+/* Container per centrare e limitare la larghezza del video principale */
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto; /* Aggiunge spazio sopra e sotto */
+  padding: 0 15px; /* Spazio ai lati su mobile */
+}
+
+/* Stile per il video principale */
+#myVideo {
+  max-width: 100%;
+  width: 550px; /* Imposta una larghezza massima per desktop */
+  height: auto;
+  border-radius: 12px;
+  /* Aggiungi un effetto neon per abbinarlo al resto del design */
+  box-shadow: 0 0 10px rgba(155, 0, 255, 0.7), /* Bagliore interno leggero */
+    0 0 30px rgba(155, 0, 255, 0.4), /* Bagliore esterno */ 0 0 4px #fff; /* Bordo leggero per contrasto */
+  border: 2px solid #9b00ff;
+  transition: box-shadow 300ms ease;
+}
+
+#myVideo:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+    0 0 40px rgba(155, 0, 255, 0.7);
+}
+
+/* --- SEZIONE: Stili Video Cards Scorrevole con Frecce --- */
+
+/* Wrapper per il contenitore delle card e le frecce */
+.video-cards-wrapper {
+  position: relative; /* Per posizionare le frecce assolute */
+  width: 100%;
+  max-width: 900px; /* Stessa larghezza massima del contenitore delle card */
+  margin: 40px auto;
+  padding: 0 15px;
+  display: flex; /* Permette di allineare frecce e scroller */
+  align-items: center; /* Centra verticalmente le frecce */
+  justify-content: center;
+}
+
+.video-cards-container {
+  flex-grow: 1; /* Permette al contenitore delle card di occupare lo spazio disponibile */
+  overflow: hidden; /* Nasconde ciò che esce dai bordi */
+}
+
+.video-card-scroller {
+  display: flex;
+  overflow-x: auto; /* Manteniamo auto ma lo nasconderemo */
+  padding-bottom: 5px; /* Spazio aggiuntivo se la scrollbar appare temporaneamente */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 20px;
+}
+
+/* Stile per NASCONDERE la scrollbar su tutti i browser */
+.video-card-scroller::-webkit-scrollbar {
+  display: none; /* Per Chrome, Safari */
+}
+.video-card-scroller {
+  -ms-overflow-style: none; /* Per IE e Edge */
+  scrollbar-width: none; /* Per Firefox */
+}
+
+/* Stile della singola card video */
+.video-card {
+  flex:0 0 10px ;
+  height: 170px;
+  min-width: 250px;
+  scroll-snap-align: start;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  border: 2px solid #9b00ff;
+  box-shadow: 0 0 8px rgba(155, 0, 255, 0.7),
+    0 0 15px rgba(155, 0, 255, 0.4);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  cursor: grab;
+}
+
+.video-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8),
+    0 0 30px rgba(155, 0, 255, 0.7);
+}
+
+.video-card iframe {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-title {
+  padding: 10px 5px;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-shadow: 0 0 5px #9b00ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Stili per le frecce di navigazione */
+.nav-arrow {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #9b00ff;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 10;
+  position: absolute; /* Posizionamento assoluto rispetto a .video-cards-wrapper */
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(155, 0, 255, 0.7);
+  display: flex; /* Per centrare il testo della freccia */
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Larghezza fissa */
+  height: 50px; /* Altezza fissa */
+}
+
+.nav-arrow:hover {
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+    0 0 30px rgba(155, 0, 255, 0.7);
+  color: #fff;
+}
+
+.left-arrow {
+  left: 0px; /* Posiziona a sinistra del wrapper */
+}
+
+.right-arrow {
+  right: 0px; /* Posiziona a destra del wrapper */
+}
+
+/* Media Query per schermi più piccoli */
+@media (max-width: 768px) {
+  .left-arrow {
+    left: 5px; /* Sposta le frecce leggermente all'interno su mobile */
+  }
+
+  .right-arrow {
+    right: 5px; /* Sposta le frecce leggermente all'interno su mobile */
+  }
+}
+
+@media (max-width: 480px) {
+    .nav-arrow {
+        font-size: 24px;
+        padding: 8px 12px;
+        width: 45px;
+        height: 45px;
+    }
+}
