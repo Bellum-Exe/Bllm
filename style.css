@@ -106,11 +106,11 @@ p {
   text-decoration: none;
   font-weight: 700;
   font-family: "Roboto", sans-serif;
-  border: 4px solid rgba(255, 255, 255, 0.9);
+  border: 3px solid rgba(255, 255, 255, 0.9);
   border-radius: var(--radius);
   letter-spacing: 0.06em;
-  text-shadow: 0 0 10px #ffffff, 0 0 20px #ff0000;
-  box-shadow: 0 0 8px rgba(255, 0, 43, 0.7), 0 0 20px rgba(155, 0, 255, 0.25);
+  text-shadow: 0 0 10px #4e0808, 0 0 20px #3d0303;
+  box-shadow: 0 0 8px rgb(255, 0, 43), 0 0 20px rgba(0, 183, 255, 0.25);
   position: relative;
   transition: transform 150ms ease, box-shadow 150ms ease;
   cursor: pointer;
@@ -134,12 +134,12 @@ p {
   bottom: -8px;
   border-radius: calc(var(--radius) + 8px);
   z-index: -1;
-  filter: blur(10px);
+  filter: blur(80px);
   background: radial-gradient(
     closest-side,
     rgba(255, 255, 255, 0.85),
-    rgba(255, 0, 43, 0.7) 40%,
-    rgba(255, 0, 43, 0.7) 70%
+    rgba(255, 0, 43, 0.432) 40%,
+    rgba(255, 0, 43, 0.267) 70%
   );
   opacity: 0.6;
   transition: opacity 150ms ease, transform 200ms ease;
@@ -155,7 +155,7 @@ p {
   border-radius: calc(var(--radius) + 18px);
   z-index: -2;
   filter: blur(22px);
-  background: radial-gradient(circle, rgba(255, 0, 43, 0.7), transparent 40%);
+  background: radial-gradient(circle, rgb(255, 0, 43), transparent 40%);
   opacity: 0.6;
   transition: opacity 150ms ease;
 }
@@ -163,7 +163,7 @@ p {
 .btn-neon:hover,
 .btn-neon:focus {
   transform: translateY(-3px);
-  box-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 48px rgba(255, 0, 43, 0.7);
+  box-shadow: 0 0 18px rgb(235, 1, 1), 0 0 48px rgb(255, 0, 43);
   outline: none;
 }
 
